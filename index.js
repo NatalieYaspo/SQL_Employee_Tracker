@@ -1,17 +1,7 @@
 // Packages needed for this application
-// const express = require('express'); //Don't need
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const cTable = require('console.table');
-
-
-const PORT = process.env.PORT || 3001;
-const app = express();
-
-// Express middleware ??Dont need???
-// app.use(express.urlencoded({ extended: false }));
-// app.use(express.json());
-
 
 // Connect to database
 const db = mysql.createConnection(
@@ -23,7 +13,7 @@ const db = mysql.createConnection(
     password: 'root',
     database: 'sqlemployees_db'
   },
-  console.log(`Connected to the sqlemployees_db database.`)
+  // console.log(`Connected to the sqlemployees_db database.`) //Works
 );
 
 //Main app question
@@ -40,19 +30,24 @@ const toDoQuest = [
 
 //Functions for each Menu Options
 function viewDepts() {
-  app.get(
-    db.query('SELECT * FROM sqlemployees_db.department;', function (err, results) {
+  db.query('SELECT * FROM sqlemployees_db.department;', function (err, results) {
       console.table(results);
+      init();
   })
-  );
 };
 
 function viewRoles() {
-
+  db.query('SELECT * FROM sqlemployees_db.role;', function (err, results) {
+    console.table(results);
+    init();
+})
 };
 
 function viewEmps() {
-
+  db.query('SELECT * FROM sqlemployees_db.employee;', function (err, results) {
+    console.table(results);
+    init();
+})
 };
 
 function addDept() {
@@ -78,21 +73,38 @@ function updateEmp() {
 function init() {
     inquirer.prompt(toDoQuest)
     
-    // if (response = 'VIEW all departments' || 'VIEW all roles' || 'VIEW all Employees')
-
-    .then(
+    .then((response) => {
       // Switch to check which selection was made
-     
-    )
-
+      // console.log(response['Action Selection'])
+      switch(response['Action Selection']) {
+        case 'VIEW all departments':
+          // console.log("selected View All Depts"); //Works
+          viewDepts();
+          break;
+        case 'VIEW all roles':
+          viewRoles();
+          break;
+        case 'VIEW all Employees':
+          viewEmps();
+          break;
+        case 'ADD a department':
+          addDept();
+          break;
+        case 'ADD a role':
+          addRole();
+          break;
+        case 'ADD an employee':
+          addEmp();
+          break;
+        case 'UPDATE an employee role':
+          updateEmp();
+          break;
+      }
+    })
 }
 
 // Function call to initialize app
 init();
-
-
-// app.listen(PORT); //, () => //don't need
-//   console.log(`App listening at http://localhost:${PORT}`)
 
 //Constructor to add a role
 class addNewRole {
