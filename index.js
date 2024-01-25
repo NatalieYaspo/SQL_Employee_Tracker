@@ -178,7 +178,6 @@ function addDept() {
       db.query(`INSERT INTO sqlemployees_db.department (name)
     VALUES ("${newDept}");`, function (err, results) {
         viewDepts();
-        init();
       })
     })
 };
@@ -194,7 +193,6 @@ function addRole() {
       db.query(`INSERT INTO sqlemployees_db.role (title, salary, department_id)
     VALUES ("${title}", ${salary}, ${deptId});`, function (err, results) {
         viewRoles();
-        init();
       })
     })
 };
@@ -210,7 +208,6 @@ function addEmp() {
       db.query(`INSERT INTO sqlemployees_db.employee (first_name, last_name, role_id, manager_id)
     VALUES ("${first_name}", "${last_name}", ${role_id}, ${manager_id});`, function (err, results) {
         viewEmps();
-        init();
       })
     })
 };
@@ -225,7 +222,6 @@ function updateEmp() {
     SET role_id = ${role_id}
     WHERE id = ${emp_id};`, function (err, results) {
         viewEmps();
-        init();
       })
     })
 };
@@ -240,7 +236,6 @@ function updateMgr() {
     SET manager_id = ${manager_id}
     WHERE id = ${emp_id};`, function (err, results) {
         viewEmps();
-        init();
       })
     })
 };
@@ -252,7 +247,6 @@ function deleteDept() {
       let dept_id = response.dept_id;
       db.query(`DELETE FROM sqlemployees_db.department WHERE id = ${dept_id};`, function (err, results) {
         viewDepts();
-        init();
       })
     })
 };
@@ -264,7 +258,6 @@ function deleteRole() {
       let role_id = response.role_id;
       db.query(`DELETE FROM sqlemployees_db.role WHERE id = ${role_id};`, function (err, results) {
         viewDepts();
-        init();
       })
     })
 };
@@ -276,7 +269,6 @@ function deleteEmp() {
       let emp_id = response.emp_id;
       db.query(`DELETE FROM sqlemployees_db.employee WHERE id = ${emp_id};`, function (err, results) {
         viewEmps();
-        init();
       })
     })
 };
