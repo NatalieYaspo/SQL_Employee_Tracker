@@ -17,15 +17,16 @@ The user is prompted with questions that will allow them to vie, add, or update 
 ## Installation
 
 The user should clone this Repo locally.
-Then the user should open their terminal and run "node server.js".
+Then the user should open their terminal and run:
+- npm install
+- install the schema.sql followed by seeds.sql into MySQL Workbench
+- node index.js
 
 ## Usage
 
 Once the user starts the app, they will be presented with the following options: view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role.
 
-
 When the user chooses to view all departments, they are presented with a formatted table showing department names and department ids.
-
 
 When the user chooses to view all roles, they are presented with the job title, role id, the department that role belongs to, and the salary for that role.
 
@@ -46,10 +47,8 @@ Video Tutorial:
 Developer: Natalie Yaspo
 
 Collaborators:
-- 
-
-Tutorial Videos:
-- 
+- Le, Roger via Zoom on 24 Jan, 2024
+- Peters, Sasha via Zoom on 24 Jan, 2024
 
 ## License
 
