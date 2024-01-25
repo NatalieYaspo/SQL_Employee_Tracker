@@ -23,7 +23,8 @@ const toDoQuest = [
         message: 'What would you like to do?',
         choices: ['VIEW all departments', 'VIEW all roles', 'VIEW all Employees', 
         'ADD a department', 'ADD a role', 'ADD an employee', 
-        'UPDATE an employee role'],
+        'UPDATE an employee role', 
+        'DELETE a department', 'DELETE a role', 'DELETE an employee'],
         name: 'Action Selection',
     }
 ];
@@ -85,12 +86,39 @@ const updateEmpQuests = [
   {
     type: 'input',
     name: 'emp_id',
-    message: `What is the employee's ID who's role you with to update?`,
+    message: `What is the employee's ID who's role you wish to update?`,
   },
   {
     type: 'input',
     name: 'role_id',
     message: `Which role ID number would you like to update this to?`,
+  },
+];
+
+//Questions to Delete a Department
+const deleteDeptQuests = [
+  {
+    type: 'input',
+    name: 'dept_id',
+    message: `What is the department's ID which you wish to delete?`,
+  },
+];
+
+//Questions to Delete a Department
+const deleteRoleQuests = [
+  {
+    type: 'input',
+    name: 'role_id',
+    message: `What is the role's ID which you wish to delete?`,
+  },
+];
+
+//Questions to Delete an Employee
+const deleteEmpQuests = [
+  {
+    type: 'input',
+    name: 'emp_id',
+    message: `What is the employee's ID whom you wish to delete?`,
   },
 ];
 
@@ -179,6 +207,42 @@ function updateEmp() {
   })
 };
 
+function deleteDept() {
+  inquirer.prompt(deleteDeptQuests)
+
+  .then((response) => {
+    let dept_id = response.dept_id;
+    db.query(`DELETE FROM sqlemployees_db.department WHERE id = ${dept_id};`, function (err, results) {
+      viewDepts();
+      init();
+    })
+  })
+};
+
+function deleteRole() {
+  inquirer.prompt(deleteRoleQuests)
+
+  .then((response) => {
+    let role_id = response.role_id;
+    db.query(`DELETE FROM sqlemployees_db.role WHERE id = ${role_id};`, function (err, results) {
+      viewDepts();
+      init();
+    })
+  })
+};
+
+function deleteEmp() {
+  inquirer.prompt(deleteEmpQuests)
+
+  .then((response) => {
+    let emp_id = response.emp_id;
+    db.query(`DELETE FROM sqlemployees_db.employee WHERE id = ${emp_id};`, function (err, results) {
+      viewEmps();
+      init();
+    })
+  })
+};
+
 // Function to initialize app
 function init() {
     inquirer.prompt(toDoQuest)
@@ -209,6 +273,15 @@ function init() {
           break;
         case 'UPDATE an employee role':
           updateEmp();
+          break;
+        case 'DELETE a department':
+          deleteDept();
+          break;
+        case 'DELETE a role':
+          deleteRole();
+          break;
+        case 'DELETE an employee':
+          deleteEmp();
           break;
       }
     })
