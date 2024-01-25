@@ -40,7 +40,7 @@ When the user chooses to add an employee, they are prompted to enter the employe
 
 When the user chooses to update an employee role, they are prompted to select an employee to update and their new role and this information is updated in the database.
 
-Video Tutorial: 
+Video Tutorial: https://drive.google.com/file/d/1p-_LZHj2TpTs3dbHLnUVCxYZrHwDaAPk/view
 
 ## Credits
 
