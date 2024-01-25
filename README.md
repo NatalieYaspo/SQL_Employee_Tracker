@@ -49,6 +49,7 @@ Developer: Natalie Yaspo
 Collaborators:
 - Le, Roger via Zoom on 24 Jan, 2024
 - Peters, Sasha via Zoom on 24 Jan, 2024
+- Elliott, Jaren via Zoom on 24 Jan, 2024
 
 ## License
 
