@@ -18,16 +18,16 @@ const db = mysql.createConnection(
 
 //Main app question
 const toDoQuest = [
-    {
-        type: 'list',
-        message: 'What would you like to do?',
-        choices: ['VIEW all departments', 'VIEW all roles', 'VIEW all Employees', 
-        'ADD a department', 'ADD a role', 'ADD an employee', 
-        'UPDATE an employee role', 'UPDATE an employee manager', 
-        'DELETE a department', 'DELETE a role', 'DELETE an employee',
-        'VIEW employees by Title', 'VIEW total Salary by Department'],
-        name: 'Action Selection',
-    }
+  {
+    type: 'list',
+    message: 'What would you like to do?',
+    choices: ['VIEW all departments', 'VIEW all roles', 'VIEW all Employees',
+      'ADD a department', 'ADD a role', 'ADD an employee',
+      'UPDATE an employee role', 'UPDATE an employee manager',
+      'DELETE a department', 'DELETE a role', 'DELETE an employee',
+      'VIEW employees by Title', 'VIEW total Salary by Department'],
+    name: 'Action Selection',
+  }
 ];
 
 //Questions to add a new Department
@@ -146,12 +146,11 @@ const deptSalaryQuests = [
   },
 ];
 
-
 //Functions for each Menu Options
 function viewDepts() {
   db.query('SELECT * FROM sqlemployees_db.department;', function (err, results) {
-      console.table(results);
-      init();
+    console.table(results);
+    init();
   })
 };
 
@@ -159,127 +158,127 @@ function viewRoles() {
   db.query('SELECT * FROM sqlemployees_db.role;', function (err, results) {
     console.table(results);
     init();
-})
+  })
 };
 
 function viewEmps() {
   db.query('SELECT * FROM sqlemployees_db.employee;', function (err, results) {
     console.table(results);
     init();
-})
+  })
 };
 
 function addDept() {
   inquirer.prompt(newDeptQuests)
 
-  .then((response) => {
-    // console.log(response.name); //Gives correct input
-    let newDept = response.name;
-    // console.log(newDept);//Gives correct input
-    db.query(`INSERT INTO sqlemployees_db.department (name)
+    .then((response) => {
+      // console.log(response.name); //Gives correct input
+      let newDept = response.name;
+      // console.log(newDept);//Gives correct input
+      db.query(`INSERT INTO sqlemployees_db.department (name)
     VALUES ("${newDept}");`, function (err, results) {
-      viewDepts();
-      init();
+        viewDepts();
+        init();
+      })
     })
-  })
 };
 
 function addRole() {
   inquirer.prompt(newRoleQuests)
 
-  .then((response) => {
-    // console.log(response.title); //Gives correct input
-    let title = response.title;
-    let salary = response.salary;
-    let deptId = response.department_id;
-    db.query(`INSERT INTO sqlemployees_db.role (title, salary, department_id)
+    .then((response) => {
+      // console.log(response.title); //Gives correct input
+      let title = response.title;
+      let salary = response.salary;
+      let deptId = response.department_id;
+      db.query(`INSERT INTO sqlemployees_db.role (title, salary, department_id)
     VALUES ("${title}", ${salary}, ${deptId});`, function (err, results) {
-      viewRoles();
-      init();
+        viewRoles();
+        init();
+      })
     })
-  })
 };
 
 function addEmp() {
   inquirer.prompt(newEmpQuests)
 
-  .then((response) => {
-    let first_name = response.first_name;
-    let last_name = response.last_name;
-    let role_id = response.role_id;
-    let manager_id = response.manager_id;
-    db.query(`INSERT INTO sqlemployees_db.employee (first_name, last_name, role_id, manager_id)
+    .then((response) => {
+      let first_name = response.first_name;
+      let last_name = response.last_name;
+      let role_id = response.role_id;
+      let manager_id = response.manager_id;
+      db.query(`INSERT INTO sqlemployees_db.employee (first_name, last_name, role_id, manager_id)
     VALUES ("${first_name}", "${last_name}", ${role_id}, ${manager_id});`, function (err, results) {
-      viewEmps();
-      init();
+        viewEmps();
+        init();
+      })
     })
-  })
 };
 
 function updateEmp() {
   inquirer.prompt(updateEmpQuests)
 
-  .then((response) => {
-    let role_id = response.role_id;
-    let emp_id = response.emp_id;
-    db.query(`UPDATE sqlemployees_db.employee
+    .then((response) => {
+      let role_id = response.role_id;
+      let emp_id = response.emp_id;
+      db.query(`UPDATE sqlemployees_db.employee
     SET role_id = ${role_id}
     WHERE id = ${emp_id};`, function (err, results) {
-      viewEmps();
-      init();
+        viewEmps();
+        init();
+      })
     })
-  })
 };
 
 function updateMgr() {
   inquirer.prompt(updateMgrQuests)
 
-  .then((response) => {
-    let manager_id = response.manager_id;
-    let emp_id = response.emp_id;
-    db.query(`UPDATE sqlemployees_db.employee
+    .then((response) => {
+      let manager_id = response.manager_id;
+      let emp_id = response.emp_id;
+      db.query(`UPDATE sqlemployees_db.employee
     SET manager_id = ${manager_id}
     WHERE id = ${emp_id};`, function (err, results) {
-      viewEmps();
-      init();
+        viewEmps();
+        init();
+      })
     })
-  })
 };
 
 function deleteDept() {
   inquirer.prompt(deleteDeptQuests)
 
-  .then((response) => {
-    let dept_id = response.dept_id;
-    db.query(`DELETE FROM sqlemployees_db.department WHERE id = ${dept_id};`, function (err, results) {
-      viewDepts();
-      init();
+    .then((response) => {
+      let dept_id = response.dept_id;
+      db.query(`DELETE FROM sqlemployees_db.department WHERE id = ${dept_id};`, function (err, results) {
+        viewDepts();
+        init();
+      })
     })
-  })
 };
 
 function deleteRole() {
   inquirer.prompt(deleteRoleQuests)
 
-  .then((response) => {
-    let role_id = response.role_id;
-    db.query(`DELETE FROM sqlemployees_db.role WHERE id = ${role_id};`, function (err, results) {
-      viewDepts();
-      init();
+    .then((response) => {
+      let role_id = response.role_id;
+      db.query(`DELETE FROM sqlemployees_db.role WHERE id = ${role_id};`, function (err, results) {
+        viewDepts();
+        init();
+      })
     })
-  })
 };
 
 function deleteEmp() {
   inquirer.prompt(deleteEmpQuests)
 
-  .then((response) => {
-    let emp_id = response.emp_id;
-    db.query(`DELETE FROM sqlemployees_db.employee WHERE id = ${emp_id};`, function (err, results) {
-      viewEmps();
-      init();
+    .then((response) => {
+      let emp_id = response.emp_id;
+      db.query(`DELETE FROM sqlemployees_db.employee WHERE id = ${emp_id};`, function (err, results) {
+        viewEmps();
+        init();
+      })
     })
-  })
 };
 
 function viewEmpsTitles() {
@@ -294,27 +293,26 @@ function viewEmpsTitles() {
 function deptSalary() {
   inquirer.prompt(deptSalaryQuests)
 
-  .then((response) => {
-    let dept_id = response.dept_id;
-    db.query(`SELECT SUM(salary) AS totalDeptSalary
+    .then((response) => {
+      let dept_id = response.dept_id;
+      db.query(`SELECT SUM(salary) AS totalDeptSalary
     FROM sqlemployees_db.role
     WHERE department_id = ${dept_id};`, function (err, results) {
-      console.table(results);
-      init();
+        console.table(results);
+        init();
+      })
     })
-  })
 };
 
 // Function to initialize app
 function init() {
-    inquirer.prompt(toDoQuest)
-    
+  inquirer.prompt(toDoQuest)
+
     .then((response) => {
       // Switch to check which selection was made
       // console.log(response['Action Selection']) //Finding what I need to view for the switch
-      switch(response['Action Selection']) {
+      switch (response['Action Selection']) {
         case 'VIEW all departments':
-          // console.log("selected View All Depts"); //Works
           viewDepts();
           break;
         case 'VIEW all roles':
@@ -324,7 +322,6 @@ function init() {
           viewEmps();
           break;
         case 'ADD a department':
-          // inquirer.prompt(newDeptQuests)
           addDept();
           break;
         case 'ADD a role':
@@ -360,38 +357,3 @@ function init() {
 
 // Function call to initialize app
 init();
-
-//Constructor to add a role
-class addNewRole {
-    constructor() {
-      this.title = '';
-      this.salary = '';
-      this.department_id = '';
-    }
-    run() {
-      return inquirer
-      .prompt([
-        {
-          type: 'input',
-          name: 'title',
-          message: 'Title for New Role',
-        },
-        {
-          type: 'input',
-          name: 'salary',
-          message: 'What is the Salary for the New Role?',
-        },
-        {
-          type: 'input',
-          name: 'department_id',
-          message: 'Which department does this role belong to?',
-        },
-      ])
-    //   .then(({ text, priority, confirmAddTask }) => { //need to adjust all of this.
-    //     this.tasks.push({ text, priority });
-    //     if (confirmAddTask) {
-    //       return this.addTask();
-    //     }
-    //   });
-  }
-}
