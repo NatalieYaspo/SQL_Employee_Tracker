@@ -23,8 +23,9 @@ const toDoQuest = [
         message: 'What would you like to do?',
         choices: ['VIEW all departments', 'VIEW all roles', 'VIEW all Employees', 
         'ADD a department', 'ADD a role', 'ADD an employee', 
-        'UPDATE an employee role', 
-        'DELETE a department', 'DELETE a role', 'DELETE an employee'],
+        'UPDATE an employee role', 'UPDATE an employee manager', 
+        'DELETE a department', 'DELETE a role', 'DELETE an employee',
+        'VIEW employees by Title', 'VIEW total Salary by Department'],
         name: 'Action Selection',
     }
 ];
@@ -95,6 +96,20 @@ const updateEmpQuests = [
   },
 ];
 
+//Questions to update an Employee's manager
+const updateMgrQuests = [
+  {
+    type: 'input',
+    name: 'emp_id',
+    message: `What is the employee's ID who's manager you wish to update?`,
+  },
+  {
+    type: 'input',
+    name: 'manager_id',
+    message: `Which manager ID number would you like to update this to?`,
+  },
+];
+
 //Questions to Delete a Department
 const deleteDeptQuests = [
   {
@@ -119,6 +134,15 @@ const deleteEmpQuests = [
     type: 'input',
     name: 'emp_id',
     message: `What is the employee's ID whom you wish to delete?`,
+  },
+];
+
+//Questions for Salary by Department
+const deptSalaryQuests = [
+  {
+    type: 'input',
+    name: 'dept_id',
+    message: `What is the department's ID which you wish to see the total salary?`,
   },
 ];
 
@@ -207,6 +231,21 @@ function updateEmp() {
   })
 };
 
+function updateMgr() {
+  inquirer.prompt(updateMgrQuests)
+
+  .then((response) => {
+    let manager_id = response.manager_id;
+    let emp_id = response.emp_id;
+    db.query(`UPDATE sqlemployees_db.employee
+    SET manager_id = ${manager_id}
+    WHERE id = ${emp_id};`, function (err, results) {
+      viewEmps();
+      init();
+    })
+  })
+};
+
 function deleteDept() {
   inquirer.prompt(deleteDeptQuests)
 
@@ -243,6 +282,29 @@ function deleteEmp() {
   })
 };
 
+function viewEmpsTitles() {
+  db.query(`SELECT employee.first_name, employee.last_name, role.title AS title
+  FROM sqlemployees_db.employee
+  JOIN sqlemployees_db.role ON employee.role_id = role.id`, function (err, results) {
+    console.table(results);
+    init();
+  })
+};
+
+function deptSalary() {
+  inquirer.prompt(deptSalaryQuests)
+
+  .then((response) => {
+    let dept_id = response.dept_id;
+    db.query(`SELECT SUM(salary) AS totalDeptSalary
+    FROM sqlemployees_db.role
+    WHERE department_id = ${dept_id};`, function (err, results) {
+      console.table(results);
+      init();
+    })
+  })
+};
+
 // Function to initialize app
 function init() {
     inquirer.prompt(toDoQuest)
@@ -274,6 +336,9 @@ function init() {
         case 'UPDATE an employee role':
           updateEmp();
           break;
+        case 'UPDATE an employee manager':
+          updateMgr();
+          break;
         case 'DELETE a department':
           deleteDept();
           break;
@@ -282,6 +347,12 @@ function init() {
           break;
         case 'DELETE an employee':
           deleteEmp();
+          break;
+        case 'VIEW employees by Title':
+          viewEmpsTitles();
+          break;
+        case 'VIEW total Salary by Department':
+          deptSalary();
           break;
       }
     })
